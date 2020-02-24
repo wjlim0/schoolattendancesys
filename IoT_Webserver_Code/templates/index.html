@@ -1,0 +1,345 @@
+<!doctype html>
+<head>
+
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <meta name="description" content="">
+      <meta name="author" content="">
+
+      <title>School Attendance System</title>
+
+      <!-- Custom fonts for this template-->
+      <link href="../static/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+      <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+      <!-- Custom styles for this template-->
+      <link href="../static/css/sb-admin-2.min.css" rel="stylesheet">
+      <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.js"></script>
+      <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+      <script type="text/javascript">
+        
+         google.charts.load('current', {'packages':['corechart','table']});
+
+
+          // Get Real-Time Data API
+          function getTodaysAttendance(){
+            jQuery.ajax({
+              url: "/api/getTodaysAttendance",
+              type: 'POST',
+              success: function(realtimedata, textStatus, xhr){
+                console.log(realtimedata);
+                NumberOfStudent_Present = realtimedata.chart_data.data[1].NumberOfStudent;
+                TotalNumberOfStudent = realtimedata.chart_data.data[0].NumberOfStudent;
+                NotInSchool = TotalNumberOfStudent - NumberOfStudent_Present
+                
+                $('#NumberOfStudent_Present').text(NumberOfStudent_Present + " out of " +  TotalNumberOfStudent + " in school " );
+
+                $('#TotalNumberOfStudent').text(TotalNumberOfStudent);
+                
+                $('#NotInSchool').text(NotInSchool + " student not in school yet");
+                
+              }//end success
+            });//end ajax
+          } //end getRealTimeData
+  
+    
+        function getLatestArrivedStudent(){
+            jQuery.ajax({
+              url: "/api/getLatestArrivedStudent",
+              type: 'POST',
+              success: function(realtimedata, textStatus, xhr){
+                console.log(realtimedata);
+                Full_Name =  realtimedata.chart_data.data[0].Full_Name
+                $('#LatestArrivedStudent').text(Full_Name + " has just arrived");
+                
+              }//end success
+            });//end ajax
+          } //end getRealTimeData
+
+        var chart;
+        var graphdata;
+
+        function loadChart(){
+            getData_and_drawChart()    
+        }
+
+        function getData_and_drawChart(){
+            getPastAttendance()
+        }
+
+
+        function getPastAttendance(){
+
+            jQuery.ajax({
+                url: "/api/getPastAttendance" ,
+                type: 'POST',
+                success: function(ndata, textStatus, xhr){ 
+                    console.log(ndata.chart_data.data);
+
+                    chartdata = ndata.chart_data.data
+                    graphdata = createDataTable(chartdata)
+                    drawColumnChart(graphdata)
+                    drawDataTable(graphdata)
+
+                }//end success
+            });//end ajax
+          } //end getNewData
+
+        function createDataTable(newdata){
+            graphdata = new google.visualization.DataTable();   
+            graphdata.addColumn('date', 'Date');   
+            graphdata.addColumn('number', 'NumberOfStudent');
+        
+            
+            for (i in newdata) {
+                NumberOfStudent = newdata[i].NumberOfStudent;
+                Tap_In_Date = newdata[i].Tap_In;
+                
+                jsdatetime = new Date(Tap_In_Date);
+                //Make sure the bar is centralise
+              jsdatetime.setHours(0);
+              jsdatetime.setMinutes(0);
+              jsdatetime.setSeconds(0);
+              
+                console.log(jsdatetime)
+                graphdata.addRows([[jsdatetime, NumberOfStudent]]);
+            }//end for
+            return graphdata
+        }
+        
+        function drawDataTable(graphdata){
+            var table = new google.visualization.Table(document.getElementById('table_div'));
+            table.draw(graphdata, {showRowNumber: true, width: '100%', height: '100%'});
+    
+        }//end drawTable
+
+        function drawColumnChart(graphdata) {
+            var ticks = [];
+          for (var i = 0; i < graphdata.getNumberOfRows(); i++) {
+          ticks.push(graphdata.getValue(i, 0));
+          }
+            chart = new google.visualization.ColumnChart(
+            document.getElementById('chart_div'));
+            chart.draw(graphdata, {legend: 'none', vAxis: {baseline: 0}, hAxis: {format:'d MMM y', ticks: ticks},
+                colors: ['#007bff']});
+            return 
+        } //end drawChart
+
+        $(document).ready(function(){
+
+            setInterval(function () {
+             getTodaysAttendance()
+             getLatestArrivedStudent()
+            }, 500);
+//set the time before refreshing the chart
+            setInterval(function () {
+                loadChart()
+            }, 3000);
+        });
+
+</script>
+
+</head>
+<body id="page-top">
+
+<!-- Begin Page Content -->
+
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content">
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+          <!-- Page Heading -->
+          <div class="d-sm-flex align-items-center justify-content-between my-5">
+            <h1 class="h3 mx-auto mb-0 text-gray-800">Student Attendance Dashboard</h1>
+          </div>
+
+          <!-- Content Row -->
+          <div class="row">
+
+            <!--  Card  -->
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-primary shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                       <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Today's Attendance</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800" id="NumberOfStudent_Present">0</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-primary shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                       <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Total No. of Student</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800" id="TotalNumberOfStudent">0</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+             <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-primary shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                       <div class="text-xs font-weight-bold text-success text-uppercase mb-1">No. of Students not in school</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800" id="NotInSchool">All</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Card  -->
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-primary shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                       <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Latest Student to arrive</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800" id="LatestArrivedStudent">None</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>  
+          </div>
+
+          <div class="row">
+
+            <!-- Column Graph -->
+            <div class="col">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-2 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Attendance of Students</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body border-left-primary px-0 py-0">
+                  <div class="chart-area">
+                    <div id="chart_div" style="width:100%; height:100%;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="row">
+
+            <!-- Table Graph -->
+            <div class="col">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-2 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Attendance Record of Students</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body border-left-primary px-0 py-0">
+                  <div class="chart-area">
+                    <div id="table_div" style="width:100%; height:100%;"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- LCD Display  -->
+            <div class="col">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-2 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold text-primary">Announcement For student</h6>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body border-left-primary px-0 py-0">
+                  <div class="chart-area ">
+                    <div class="text-lg font-weight-bold" id="Announcement" style="padding-top:20px;margin-left: 10px">Please enter any announcement here. It will be displayed on the LCD Display for everyone to see</div>
+                    <form  style="padding-top:20px;margin-left: 10px" action="/api/SetAnnouncement" method="POST">
+                    <input type="text" name="msg" id="msg" >
+                    <input type="submit" id="SubmitButton">
+                    
+                    </form>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+
+          </div>    
+        <!-- End of container-fluid -->
+
+      </div>
+      <!-- End of Main Content -->
+
+      <!-- Footer -->
+      <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <p class="mb-1">Student Attendance System</p>
+            <p class="mb-0">By Danial Adam, Wei Jie and Ben</p>
+          </div>
+        </div>
+      </footer>
+      <!-- End of Footer -->
+    </div>  
+    </div>
+    <!-- End of Content Wrapper -->
+
+  </div>
+  <!-- End of Page Wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="../static/vendor/jquery/jquery.min.js"></script>
+  <script src="../static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="../static/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="../static/js/sb-admin-2.min.js"></script>
+
+  <!-- Page level plugins -->
+  <script src="../static/vendor/chart.js/Chart.min.js"></script>
+
+  <!-- Page level custom scripts -->
+  <script src="../static/js/demo/chart-area-demo.js"></script>
+  <script src="../static/js/demo/chart-pie-demo.js"></script>
+
+</body>
+
+</html>
