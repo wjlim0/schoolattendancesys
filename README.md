@@ -23,7 +23,7 @@ To run this project, perform the following steps:
 6. `Cd into IoT_Pi_Code.`
 7. `Run the desired program depending on the intended purpose of the pi`
 
-##Supported Python Version
+## Supported Python Version
 Python2.7
 
 ## Installation
@@ -83,20 +83,18 @@ For this project, an Amazon Web Services account has to be set up. For the purpo
 Simply place the certificate and key files in the cert directory, and the code will locate it when it is run.
 
 ## Hardware
--1 Buzzer
--1 Raspberry Pi
--1 LCD Display Screen
--1 RFID Card reader
--many RFID cards
+*1 Buzzer
+*1 Raspberry Pi
+*1 LCD Display Screen
+*1 RFID Card reader
+*many RFID cards
 
 
 ## Picture of actual system
 ![Picture](https://github.com/myimage.jpg)
 
 # Fritzing
-
 The image shows how to connect the components to the pi
-
 ![Fritzing](https://github.com/)
 
 ## Storage
@@ -127,4 +125,4 @@ If all the steps above have been completed properly, the software is now up and 
 * **Lim Wei Jie**
 * **Ben Chua**
 
-* The group would like to thank Ms Dora Chua for her guidance and support
+The group would like to thank Ms Dora Chua for her guidance and support
