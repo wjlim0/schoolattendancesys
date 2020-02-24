@@ -16,11 +16,11 @@ Quick Start
 To run this project, perform the following steps:
 
 1. `Create Amazon Web Services account.`
-2. `Set up EC2 Web Application on the Amazon web GUI.`
-3. `Set up MySQL server on the Amazon web GUI.`
-4. `Set up the RPI as shown by the image below`
-5. `Git clone the repository on the pi.`
-6. `Cd into IoT_Pi_Code.`
+2. `Set up EC2 Instance on the Amazon web GUI.`
+3. `Set up MySQL AWS RDS on the Amazon web GUI.`
+4. `Set up the RPI as shown in the image below`
+5. `git clone the repository on the pi.`
+6. `cd into IoT_Pi_Code.`
 7. `Run the desired program depending on the intended purpose of the pi`
 
 ## Supported Python Version
@@ -78,17 +78,17 @@ git clone https://github.com/pimylifeup/MFRC522-python.git && cd MFRC522-python 
 
 ## Authentication
 
-For this project, an Amazon Web Services account has to be set up. For the purposes of this project, an educational account or billing-enabled account can be used. Certificates also need to be set up so that the raspberry pis are able to utilise the APIs and can communicate with the Amazon servers.
+For this project, an Amazon Web Services account has to be set up. For the purposes of this project, an educational account or billing-enabled account can be used. Certificates also need to be set up so that the Raspberry Pis are able to utilise the APIs and can communicate with the Amazon servers.
 
-Simply place the certificate and key files in the cert directory, and the code will locate it when it is run.
+Simply place the certificate and key files in the "certs" directory, and the code will locate it when it is run.
 
-## Hardware
+## Hardware (for 1 setup)
 *1 Buzzer
 *1 Raspberry Pi
 *1 LCD Display Screen
 *1 RFID Card reader
 *many RFID cards
-
+Note: We have built 3 setups for the purpose of this project: 2 for attendance taking, 1 for assigning RFID cards.
 
 ## Picture of actual system
 ![Picture](https://github.com/wjlim0/schoolattendancesys/blob/master/iot_pic/Picture5.png)
@@ -96,13 +96,12 @@ Simply place the certificate and key files in the cert directory, and the code w
 ![Picture3](https://github.com/wjlim0/schoolattendancesys/blob/master/iot_pic/Picture7.png)
 
 # Fritzing
-The image shows how to connect the components to the pi
+The image shows how to connect the components to the Pi
 ![Fritzing](https://github.com/wjlim0/schoolattendancesys/blob/master/iot_pic/Picture1.png)
 
 ## Storage
 
-With a AWS MySQL database created with the web GUI, allow all traffic within the security group. The raspberry pi is now able to access the database through the use of a lambda handler in the code itself.
-
+With a AWS RDS database created with the web GUI, allow all traffic within the security group. The Raspberry Pi is now able to access the database through the use of a Lambda handler in the code itself.
 
 ## System Architecture
 
