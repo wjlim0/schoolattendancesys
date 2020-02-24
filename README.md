@@ -91,7 +91,9 @@ Simply place the certificate and key files in the cert directory, and the code w
 
 
 ## Picture of actual system
-![Picture](https://github.com/myimage.jpg)
+![Picture](https://github.com/wjlim0/schoolattendancesys/blob/master/iot_pic/Picture5.png)
+![Picture2](https://github.com/wjlim0/schoolattendancesys/blob/master/iot_pic/Picture6.png)
+![Picture3](https://github.com/wjlim0/schoolattendancesys/blob/master/iot_pic/Picture7.png)
 
 # Fritzing
 The image shows how to connect the components to the pi
@@ -106,11 +108,12 @@ With a AWS MySQL database created with the web GUI, allow all traffic within the
 
 The System architecture of our project.
 
-![Architecture](https://github.com/)
+![Architecture](https://github.com/wjlim0/schoolattendancesys/blob/master/iot_pic/Picture2.png)
 
 ## Web Application
 The following images are screenshots of the running web application.
-![Webpage](https://github.com/myimage)
+![Webpage](https://github.com/wjlim0/schoolattendancesys/blob/master/iot_pic/Picture3.png)
+![Webpage2](https://github.com/wjlim0/schoolattendancesys/blob/master/iot_pic/Picture4.png)
 
 ## Running of project
 
