@@ -83,11 +83,11 @@ For this project, an Amazon Web Services account has to be set up. For the purpo
 Simply place the certificate and key files in the "certs" directory, and the code will locate it when it is run.
 
 ## Hardware (for 1 setup)
-*1 Buzzer
-*1 Raspberry Pi
-*1 LCD Display Screen
-*1 RFID Card reader
-*many RFID cards
+* 1 Buzzer
+* 1 Raspberry Pi
+* 1 LCD Display Screen
+* 1 RFID Card reader
+* many RFID cards
 Note: We have built 3 setups for the purpose of this project: 2 for attendance taking, 1 for assigning RFID cards.
 
 ## Picture of actual system
