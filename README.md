@@ -1,4 +1,4 @@
-#School Attendance System
+# School Attendance System
 ==================================
 
 ## Code style
@@ -95,7 +95,7 @@ Simply place the certificate and key files in the cert directory, and the code w
 
 # Fritzing
 The image shows how to connect the components to the pi
-![Fritzing](https://github.com/)
+![Fritzing](https://github.com/wjlim0/schoolattendancesys/blob/master/iot_pic/Picture1.png)
 
 ## Storage
 
