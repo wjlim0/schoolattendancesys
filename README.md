@@ -7,7 +7,9 @@ Standard Python code
 [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](https://github.com/feross/standard)
 # Overview of project
 
-Our project xxx
+School Attendance System is a project that aims to record down the timestamp of when a student tap in and tap out using an RFID card reader. When a student wants to enter the school compound, he or she will need to tap their student RFID card in order to gain access to the school compound. The application will check if the card used is valid. The status on whether the student is late or on time will be display on the LCD display.
+
+This application is targeted towards parents. Parents will get an email from AWS SNS to inform them once their school have arrived or left school. It is a good way for parents to keep track if their child decides to skip school or leave school early.
 
 
 Quick Start
@@ -88,6 +90,7 @@ Simply place the certificate and key files in the "certs" directory, and the cod
 * 1 LCD Display Screen
 * 1 RFID Card reader
 * many RFID cards
+
 Note: We have built 3 setups for the purpose of this project: 2 for attendance taking, 1 for assigning RFID cards.
 
 ## Picture of actual system
